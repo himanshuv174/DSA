@@ -52,7 +52,7 @@ class Solution:
         str1 = []
         str2 = []
 
-        for i in range(size1):
+        for i in range(size1): 
             str1.append(string[i])
             str2.append(string[size-i-1])
 
