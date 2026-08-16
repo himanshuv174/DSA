@@ -33,15 +33,16 @@ class Solution:
             sign = 1 
 
         num = 0
-        x = abs(x)
-        while x:
+        x = abs(x)   # this will store only the absolute value of the number (not the positive or negative sign)
+
+        while x:                        #this will store the number in the reverse order
            digit  = x % 10
            num = num * 10 + digit
            x = x//10
            
-        num = num * sign
+        num = num * sign      #multiplying with the sign 
 
-        if num < -(2 ** 31) or num > 2 ** 31 - 1:
+        if num < -(2 ** 31) or num > 2 ** 31 - 1:     # working on the edge case for the limit of integer
             return 0
 
         return num
