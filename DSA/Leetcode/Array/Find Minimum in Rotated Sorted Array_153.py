@@ -37,6 +37,45 @@
 # All the integers of nums are unique.
 # nums is sorted and rotated between 1 and n times.
 
+
+# Step by Step Algorithm
+
+# Initialize Pointers
+
+# left = 0
+# right = len(nums) - 1
+# We define two pointers, left and right.
+# left starts at the beginning of the array (0), and right starts at the last index (len(nums) - 1).
+# The goal is to narrow down the range between left and right until we find the minimum element.
+# Binary Search Loop
+
+# while left < right:
+# We enter a loop that continues as long as left is less than right.
+# This loop performs a binary search to locate the minimum value in the rotated sorted array.
+# Calculate Midpoint
+
+# mid = (left + right) // 2
+# We calculate the midpoint mid by taking the integer division of (left + right) / 2.
+# mid represents the middle index of the current subarray defined by left and right.
+# Compare Midpoint with Right Element
+
+# if nums[mid] <= nums[right]:
+#     right = mid
+# If the element at mid is less than or equal to the element at right, this means the minimum element could be at mid or to its left (in the left half of the current subarray).
+# We update right to mid, effectively discarding the right half of the array in the next iteration.
+# Move Left Pointer
+
+# else:
+#     left = mid + 1
+# If nums[mid] is greater than nums[right], this means the minimum element must be in the right half of the current subarray.
+# We update left to mid + 1, moving it to the right half of the array for the next iteration.
+# Return Minimum Element
+
+# return nums[left]
+# Once the loop exits (when left == right), both left and right will be pointing to the minimum element in the array.
+# We return nums[left] as the minimum value.
+
+
 class Solution:
     def findMin(self, nums: List[int]) -> int:
         right = nums[-1]  #storing the last element of the list
