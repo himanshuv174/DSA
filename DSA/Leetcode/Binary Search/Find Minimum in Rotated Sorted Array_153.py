@@ -91,3 +91,36 @@ class Solution:
             else:
                 low = mid + 1
         return nums[low]
+
+
+# Steps
+
+# 1. finding the sorted part the taking the min of it.
+# 2. moving to the other unsorted part to get the min from that 
+# 3. following the same 1st step and then 2nd step untill you get the min.
+
+
+
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        low = 0  # first element of array
+        n = len(nums)
+        high = n - 1 # last element of array
+        ans = 5000  # taking the max number as ans (INT_MAX)
+
+        while low <= high:
+
+            if nums[low] <= nums[high]:
+                ans = min(ans,nums[low])
+                break
+
+            mid = low + (high - low) //2    
+
+            if nums[low] <= nums[mid]:    # Left portion is sorted the taking the min of left sorted and moving to non sorted right area for min
+                ans = min(ans,nums[low])
+                low = mid + 1
+            else:                       # Right portion is sorted the taking the min of right sorted and moving to non sorted left area for min
+                ans = min(ans,nums[mid])
+                high = mid - 1
+
+        return ans
