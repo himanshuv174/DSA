@@ -1,0 +1,95 @@
+# 424. Longest Repeating Character Replacement
+
+# You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.
+
+# Return the length of the longest substring containing the same letter you can get after performing the above operations.
+
+# Example 1:
+
+# Input: s = "ABAB", k = 2
+# Output: 4
+# Explanation: Replace the two 'A's with two 'B's or vice versa.
+# Example 2:
+
+# Input: s = "AABABBA", k = 1
+# Output: 4
+# Explanation: Replace the one 'A' in the middle with 'B' and form "AABBBBA".
+# The substring "BBBB" has the longest repeating letters, which is 4.
+# There may exists other ways to achieve this answer too.
+
+# Constraints:
+
+# 1 <= s.length <= 105
+# s consists of only uppercase English letters.
+# 0 <= k <= s.length
+
+# Approach
+
+# Use a sliding window with two pointers: i for the start of the window and j for the end.
+# Maintain a frequency map (freqs) to track the count of characters in the window.
+# For every new character added to the window (s[j]):
+# Update its frequency in the map.
+# Calculate the maximum frequency (maxFreq) of any character in the window.
+# If the number of characters to replace exceeds k (i.e., currentLength - maxFreq > k), shrink the window from the left (i++).
+# Keep track of the maximum length of the valid window seen so far.
+# Example Walkthrough
+# Input: AABABBA, k = 2
+
+# Start with i = 0, j = 0. Add 'A' to the window.
+
+# freqs = {'A': 1}, maxFreq = 1, windowLength = 1
+# Valid window. Update res = 1.
+# Add 'A' to the window.
+
+# freqs = {'A': 2}, maxFreq = 2, windowLength = 2
+# Valid window. Update res = 2.
+# Add 'B' to the window.
+
+# freqs = {'A': 2, 'B': 1}, maxFreq = 2, windowLength = 3
+# Valid window. Update res = 3.
+# Add 'A' to the window.
+
+# freqs = {'A': 3, 'B': 1}, maxFreq = 3, windowLength = 4
+# Valid window. Update res = 4.
+# Add 'B' to the window.
+
+# freqs = {'A': 3, 'B': 2}, maxFreq = 3, windowLength = 5
+# Valid window. Update res = 5.
+# Add 'B' to the window.
+
+# freqs = {'A': 3, 'B': 3}, maxFreq = 3, windowLength = 6
+# Invalid window: windowLength - maxFreq = 6 - 3 = 3 > k. Shrink window from the left:
+# Decrease count of 'A' (freqs = {'A': 2, 'B': 3}), move i = 1, windowLength = 5.
+# Add 'A' to the window.
+
+# freqs = {'A': 3, 'B': 3}, maxFreq = 3, windowLength = 6
+# Invalid window: windowLength - maxFreq = 6 - 3 = 3 > k. Shrink window from the left:
+# Decrease count of 'A' (freqs = {'A': 2, 'B': 3}), move i = 2, windowLength = 5.
+# Final result: 5.
+
+# Complexity
+
+# Time complexity: O(n)
+# Each character is processed at most twice (once when expanding the window and once when shrinking it).
+
+# Space complexity: O(1)
+# The frequency map has a maximum size of 26 (for English letters).
+
+from collections import defaultdict
+
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        freqs = defaultdict(int)
+        res = 0
+        i = 0
+
+        for j in range(len(s)):
+            freqs[s[j]] += 1
+            maxFreq = max(freqs.values())
+            curLen = j - i + 1
+            if curLen - maxFreq > k:
+                freqs[s[i]] -= 1
+                i += 1
+            res = max(res, j - i + 1)
+        
+        return res
